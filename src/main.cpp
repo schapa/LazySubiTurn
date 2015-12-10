@@ -16,6 +16,7 @@ int main(int argc, char* argv[]) {
 	initInterrupts();
 
 	while (true) {
+		__WFI();
 	}
 }
 
