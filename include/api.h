@@ -11,6 +11,8 @@
 
 #include "stm32f0xx_gpio.h"
 
+#define PORT GPIOA
+
 #define LEFT_INPUT GPIO_Pin_10
 #define RIGHT_INPUT GPIO_Pin_2
 #define HAZARD_INPUT GPIO_Pin_4
@@ -25,8 +27,6 @@
 
 
 #define TICKS_PER_SECOND 100
-#define DEBOUNCE_COUNT 1.8*TICKS_PER_SECOND
-
 
 
 void initGpio(void);
@@ -35,6 +35,8 @@ void initInterrupts(void);
 void setLeftOutputState(FunctionalState state);
 void setRightOutputState(FunctionalState state);
 void setHazzardOutputState(FunctionalState state);
-
+FunctionalState getLeftInputState(void);
+FunctionalState getRightInputState(void);
+FunctionalState getHazzardInputState(void);
 
 #endif /* API_H_ */

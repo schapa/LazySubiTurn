@@ -22,11 +22,11 @@ void initGpio(void) {
 	initStructure.GPIO_Speed = GPIO_Speed_Level_1;
 
 	RCC_AHBPeriphClockCmd(RCC_AHBPeriph_GPIOA, ENABLE);
-	GPIO_Init(GPIOA, &initStructure);
+	GPIO_Init(PORT, &initStructure);
 
 	initStructure.GPIO_Pin = LEFT_OUTPUT | RIGHT_OUTPUT | HAZARD_OUTPUT;
 	initStructure.GPIO_Mode = GPIO_Mode_OUT;
-	GPIO_Init(GPIOA, &initStructure);
+	GPIO_Init(PORT, &initStructure);
 }
 
 void initInterrupts(void) {
@@ -59,21 +59,35 @@ void initInterrupts(void) {
 	NVIC_EnableIRQ(EXTI2_3_IRQn);
 	NVIC_EnableIRQ(EXTI4_15_IRQn);
 
-
 	SysTick_Config(RCC_ClockFreq.HCLK_Frequency / TICKS_PER_SECOND);
 }
 
 void setLeftOutputState(FunctionalState state) {
 	BitAction val = (state == DISABLE) ? Bit_RESET : Bit_SET;
-	GPIO_WriteBit(GPIOA, LEFT_OUTPUT, val);
+	GPIO_WriteBit(PORT, RIGHT_OUTPUT, Bit_RESET);
+	GPIO_WriteBit(PORT, LEFT_OUTPUT, val);
 }
 
 void setRightOutputState(FunctionalState state) {
 	BitAction val = (state == DISABLE) ? Bit_RESET : Bit_SET;
-	GPIO_WriteBit(GPIOA, RIGHT_OUTPUT, val);
+	GPIO_WriteBit(PORT, LEFT_OUTPUT, Bit_RESET);
+	GPIO_WriteBit(PORT, RIGHT_OUTPUT, val);
 }
 
 void setHazzardOutputState(FunctionalState state) {
 	BitAction val = (state == DISABLE) ? Bit_RESET : Bit_SET;
-	GPIO_WriteBit(GPIOA, HAZARD_OUTPUT, val);
+	GPIO_WriteBit(PORT, HAZARD_OUTPUT, val);
 }
+
+FunctionalState getLeftInputState(void) {
+	GPIO_ReadInputDataBit(PORT,LEFT_INPUT) ? DISABLE : ENABLE;
+}
+
+FunctionalState getRightInputState(void) {
+	GPIO_ReadInputDataBit(PORT,RIGHT_INPUT) ? DISABLE : ENABLE;
+}
+
+FunctionalState getHazzardInputState(void) {
+	GPIO_ReadInputDataBit(PORT,HAZARD_INPUT) ? DISABLE : ENABLE;
+}
+
