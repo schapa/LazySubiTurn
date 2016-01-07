@@ -28,6 +28,8 @@ __Main_Stack_Limit = __stack  - __Main_Stack_Size ;
  * object file or the command line. */
 PROVIDE ( _Main_Stack_Limit = __Main_Stack_Limit ) ;
 
+PROVIDE_HIDDEN ( s_userConfig = ORIGIN(FLASH) + LENGTH(FLASH) - 0x400) ; /* last page is config */
+
 /*
  * There will be a link error if there is not this amount of 
  * RAM free at the end. 
